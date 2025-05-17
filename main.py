@@ -41,12 +41,9 @@ def api_consult(base):
         df = df.sort_values('timestamp', ascending=False)
 
         df = pd.merge(df, base, 'inner', left_on='item_id', right_on='Id_item')
-
-
         return df[['location', 'item_id', 'Item_name', 'quality', 'item_count', 'avg_price', 'timestamp']]
 
     except:
-        st.subheader(f"Item not found :cry:")
         return 0
 
 st.title('Albion Maket Consult')
@@ -81,11 +78,11 @@ if len(selected) > 1:
     
 if st.button("Consult"):
     base= api_consult(selected)
-    if base != 0:
-        items_ = base['Item_name'].unique()
+    if base == 0:
+        st.subheader(f"Item not found :cry:")
+    else:
+         items_ = base['Item_name'].unique()
 
         for item in items_:
             fig = plt.line(base.loc[base['Item_name'] == item], 'timestamp', 'avg_price', color='location', title=item)
             st.write(fig)
-    else:
-        pass
