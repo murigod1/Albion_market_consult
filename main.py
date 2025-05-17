@@ -36,13 +36,17 @@ def api_consult(base):
 
         df = pd.concat([df, bs], ignore_index=True)
 
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
-    df = df.sort_values('timestamp', ascending=False)
+    try:
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        df = df.sort_values('timestamp', ascending=False)
 
-    df = pd.merge(df, base, 'inner', left_on='item_id', right_on='Id_item')
+        df = pd.merge(df, base, 'inner', left_on='item_id', right_on='Id_item')
 
 
-    return df[['location', 'item_id', 'Item_name', 'quality', 'item_count', 'avg_price', 'timestamp']]
+        return df[['location', 'item_id', 'Item_name', 'quality', 'item_count', 'avg_price', 'timestamp']]
+
+    except:
+        st.subheader(f"Item not found :cry:")
 
 st.title('Albion Maket Consult')
 
@@ -76,9 +80,11 @@ if len(selected) > 1:
     
 if st.button("Consult"):
     base= api_consult(selected)
+    if base:
+        items_ = base['Item_name'].unique()
 
-    items_ = base['Item_name'].unique()
-
-    for item in items_:
-        fig = plt.line(base.loc[base['Item_name'] == item], 'timestamp', 'avg_price', color='location', title=item)
-        st.write(fig)
+        for item in items_:
+            fig = plt.line(base.loc[base['Item_name'] == item], 'timestamp', 'avg_price', color='location', title=item)
+            st.write(fig)
+    else:
+        pass
