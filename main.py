@@ -82,7 +82,7 @@ if st.button("Consult"):
     if base == 0:
         st.subheader(f"Item not found :cry:")
     else:
-         items_ = base['Item_name'].unique()
+        items_ = base['Item_name'].unique()
 
         for item in items_:
             fig = plt.line(base.loc[base['Item_name'] == item], 'timestamp', 'avg_price', color='location', title=item)
