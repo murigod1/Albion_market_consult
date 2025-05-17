@@ -47,6 +47,7 @@ def api_consult(base):
 
     except:
         st.subheader(f"Item not found :cry:")
+        return 0
 
 st.title('Albion Maket Consult')
 
@@ -80,7 +81,7 @@ if len(selected) > 1:
     
 if st.button("Consult"):
     base= api_consult(selected)
-    if base:
+    if base != 0:
         items_ = base['Item_name'].unique()
 
         for item in items_:
