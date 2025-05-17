@@ -44,7 +44,7 @@ def api_consult(base):
         return df[['location', 'item_id', 'Item_name', 'quality', 'item_count', 'avg_price', 'timestamp']]
 
     except:
-        return 0
+        return []
 
 st.title('Albion Maket Consult')
 
