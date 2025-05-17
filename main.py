@@ -79,7 +79,7 @@ if len(selected) > 1:
 if st.button("Consult"):
     base= api_consult(selected)
     
-    if base == 0:
+    if len(base) > 0:
         st.subheader(f"Item not found :cry:")
     else:
         items_ = base['Item_name'].unique()
